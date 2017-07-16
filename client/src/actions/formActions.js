@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchProjects } from './projectActions';
 import {
   FORM_SUBMISSION_PENDING,
   FORM_SUBMISSION_FULFILLED,
@@ -12,6 +13,7 @@ export const createProject = (form) => {
       .then(response => {
         if (response.status !== 201) { throw response; }
         dispatch({ type: FORM_SUBMISSION_FULFILLED });
+        dispatch(fetchProjects());
       })
       .catch(err => {
         dispatch({ type: FORM_SUBMISSION_REJECTED });

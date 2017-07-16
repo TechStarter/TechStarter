@@ -14,7 +14,7 @@ passport.serializeUser((profile, done) => {
 passport.deserializeUser((id, done) => {
   User.findOne({ where: { id: id }, attributes: ['id', 'firstName', 'lastName', 'email', 'phone'] })
     .then(user => {
-      console.log('passport deserializeUser: ', user);
+      console.log('passport deserializeUser: ', user.dataValues);
       if (!user) { throw user; }
       done(null, user.dataValues);
     })
@@ -47,14 +47,21 @@ passport.use('google', new GoogleStrategy({
   clientSecret: config.Google.clientSecret,
   callbackURL: config.Google.callbackURL
 }, (accessToken, refreshToken, profile, done) => {
-  User.findOne({ where: { email: profile.emails[0].value } })
-    .then(user => {
-      if (!user) { throw user; }
-      done(null, user);
-    }).catch(err => {
-      console.log('passport google: ', err);
-      done(null, false, { message: 'user not found' });
-    });
+  User.findOrCreate({
+    where: { email: profile.emails[0].value },
+    defaults: {
+      firstName: profile.name.givenName,
+      lastName: profile.name.familyName,
+      photo: profile.photos[0].value,
+      email: profile.emails[0].value
+    }
+  }).spread(user => {
+    if (!user) { throw user; }
+    done(null, user);
+  }).catch(err => {
+    console.log('passport google: ', err);
+    done(null, false, { message: 'user not found' });
+  });
 }));
 
 passport.use('facebook', new FacebookStrategy({
@@ -67,19 +74,11 @@ passport.use('facebook', new FacebookStrategy({
   User.findOne({ where: { email: profile.emails[0].value } })
     .then(user => {
       if (!user) { throw user; }
-      done(null, user);
+      done(null, user.dataValues);
     }).catch(err => {
       console.log('passport google: ', err);
       done(null, false, { message: 'user not found' });
     });
 }));
-
-// passport.use('linkedin', new LinkedinStrategy({
-//   consumerKey: config.Linkedin.clientID,
-//   consumerSecret: config.Linkedin.clientSecret,
-//   callbackURL: config.Linkedin.callbackURL
-// }, (accessToken, refreshToken, profile, done) => {
-//
-// }));
 
 module.exports = passport;

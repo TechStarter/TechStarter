@@ -20,23 +20,21 @@ module.exports.getAll = (req, res) => {
 module.exports.create = (req, res) => {
   let urlObj = url.parse(req.body.url);
   console.log('urlObj: ', urlObj);
-  let projectId = null;
-  Project.create(req.body)
+  pageres.src(req.body.url, ['1440x900'], { filename: `${urlObj.host}`, crop: true })
+    .dest(__dirname + '/../../public/assets/pageres/').run()
+    .then(() => {
+      return Project.create(req.body);
+    })
+    .then(project => {
+      if (!project) { throw project; }
+      return Image.create({ url: `${urlObj.host}.png`, projectId: project.dataValues.id });
+    })
     .then(result => {
       if (!result) { throw result; }
-      projectId = result.dataValues.id;
-      return pageres.src(req.body.url, ['1440x900'], { filename: `${urlObj.host}`, crop: true })
-        .dest(__dirname + '/../../public/assets/pageres/').run();
-    })
-    .then(() => {
-      return Image.create({ url: `${urlObj.host}.png`, projectId: projectId });
-    })
-    .then(image => {
-      if (!image) { throw image; }
       res.sendStatus(201);
     })
     .catch(err => {
-      console.log('Project.create: ', err);
+      console.log('failed to create project: ', err);
       res.sendStatus(500);
     });
 };

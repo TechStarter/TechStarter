@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const middleware = require('../middleware');
 const router = express.Router();
 
 router.route('/')
@@ -12,6 +13,6 @@ router.route('/')
   });
 
 router.route('/project')
-  .get((req, res) => res.render('index.ejs'));
+  .get(middleware.auth.verify, (req, res) => res.render('index.ejs'));
 
 module.exports = router;

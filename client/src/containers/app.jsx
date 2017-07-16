@@ -8,26 +8,35 @@ import Header from '../components/header.jsx';
 import Container from '../components/container.jsx';
 import Footer from '../components/footer.jsx';
 import Signup from '../components/signup.jsx';
+import Login from '../components/login.jsx';
 import ProjectSubmission from './projectSubmission.jsx';
 
 class App extends React.Component {
-  componentWillMount() {
-    this.props.fetchUser();
+  constructor(props) {
+    super(props);
+
   }
 
   componentDidMount() {
+    console.log('App:', this.props);
     this.props.fetchProjects();
+    this.props.fetchUser();
   }
 
   render() {
     return (
       <Router history={browserHistory}>
         <div style={styles.layout} className='container'>
-          <Header user={this.props.user}/>
+          <Header user={this.props.user} handleLogin={this.handleLogin}/>
           <Route exact path='/' component={() =>
             <Container projects={this.props.projects}/>}
           />
           <Route path='/project' component={ProjectSubmission} />
+          <Route path='/auth/login' component={() =>
+            <div className='col align-self-center login_container'>
+              <Login />
+            </div>
+          } />
           <Route path='/auth/signup' component={Signup} />
           <Footer />
         </div>
