@@ -15,7 +15,7 @@ module.exports.session = session({
     host: 'localhost',
     port: 6379
   }),
-  secret: 'more laughter, more love, more life',
+  secret: '55iW',
   resave: false,
   saveUninitialized: false
 });

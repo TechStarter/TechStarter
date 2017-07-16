@@ -14,9 +14,4 @@ router.route('/')
 router.route('/project')
   .get((req, res) => res.render('index.ejs'));
 
-router.route('/session')
-  .get((req, res) => {
-    res.send(req.session.passport.user);
-  });
-
 module.exports = router;

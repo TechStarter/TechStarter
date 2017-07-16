@@ -5,14 +5,23 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const LinkedinStrategy = require('passport-linkedin').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const config = require('config')['passport'];
-const models = require('../../db/models');
+const { User } = require('../../db/');
 
 passport.serializeUser((profile, done) => {
   done(null, profile.id);
 });
 
 passport.deserializeUser((id, done) => {
-  done(null, id);
+  User.findOne({ where: { id: id }, attributes: ['id', 'firstName', 'lastName', 'email', 'phone'] })
+    .then(user => {
+      console.log('passport deserializeUser: ', user);
+      if (!user) { throw user; }
+      done(null, user.dataValues);
+    })
+    .catch(err => {
+      console.log('passport.deserializeUser: ', err);
+      done(null, false, { messages: 'user not found' });
+    });
 });
 
 passport.use('local-signup', new LocalStrategy({
@@ -38,7 +47,14 @@ passport.use('google', new GoogleStrategy({
   clientSecret: config.Google.clientSecret,
   callbackURL: config.Google.callbackURL
 }, (accessToken, refreshToken, profile, done) => {
-  done(null, profile);
+  User.findOne({ where: { email: profile.emails[0].value } })
+    .then(user => {
+      if (!user) { throw user; }
+      done(null, user);
+    }).catch(err => {
+      console.log('passport google: ', err);
+      done(null, false, { message: 'user not found' });
+    });
 }));
 
 passport.use('facebook', new FacebookStrategy({
@@ -48,7 +64,14 @@ passport.use('facebook', new FacebookStrategy({
   profileFields: ['id', 'emails', 'name']
 }, (accessToken, refreshToken, profile, done) => {
   console.log('facebook profile: ', profile);
-  done(null, profile);
+  User.findOne({ where: { email: profile.emails[0].value } })
+    .then(user => {
+      if (!user) { throw user; }
+      done(null, user);
+    }).catch(err => {
+      console.log('passport google: ', err);
+      done(null, false, { message: 'user not found' });
+    });
 }));
 
 // passport.use('linkedin', new LinkedinStrategy({

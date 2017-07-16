@@ -3,6 +3,15 @@ const middleware = require('../middleware');
 
 const router = express.Router();
 
+router.route('/')
+  .get((req, res) => {
+    console.log('getSession: ', req.user);
+    res.send(req.user ? {
+      isLoggedIn: true,
+      user: req.user
+    } : { isLoggedIn: false, user: {} });
+  });
+
 router.route('/login')
   .get((req, res) => {
     // res.render('login.ejs', { message: req.flash('loginMessage') });
