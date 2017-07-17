@@ -39,7 +39,8 @@ const Project = db.define('project', {
   technologies: Sequelize.TEXT,
   coFounders: Sequelize.TEXT,
   stripeAmount: Sequelize.DECIMAL(10, 2),
-  url: Sequelize.TEXT
+  url: Sequelize.TEXT,
+  status: Sequelize.ENUM('ready', 'creating', 'failed')
 });
 
 const Interest = db.define('interest', {

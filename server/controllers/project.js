@@ -1,5 +1,5 @@
 const { Project, Image } = require('../../db/');
-const { pageres } = require('../../service');
+const { pageres } = require('../middleware/');
 const url = require('url');
 const crypto = require('crypto');
 const _ = require('underscore');
@@ -20,12 +20,11 @@ module.exports.getAll = (req, res) => {
 
 module.exports.create = (req, res) => {
   // ensure unique filename
-  console.log(new Date());
   const screenshotXS = crypto.randomBytes(8).toString('hex');
   const screenshotXL = crypto.randomBytes(8).toString('hex');
-  console.log(new Date());
+  console.log('capturing screenshot for: ', req.body.url);
 
-  pageres.src(req.body.url, ['1280x720'], { filename: screenshotXS, crop: true })
+  pageres.src(req.body.url, ['1366x768'], { filename: screenshotXS, crop: true })
     .dest(__dirname + '/../../public/assets/pageres/').run()
     .then(() => {
       return pageres.src(req.body.url, ['1280x720'], { filename: screenshotXL })
