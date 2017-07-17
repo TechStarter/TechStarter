@@ -53,11 +53,22 @@ body {
   width: 100%;
   height: 100%;
 }
-.content-left {
-  background-color: rgb(236, 236, 236);
+.project-content {
+  margin-top: 50px;
+  height: 800px;
 }
-.content-right {
-  background-color: rgb(236, 236, 236);
+.project-content.left {
+  background-color: rgb(250, 250, 250);
+}
+.project-content.mid {
+  background-color: wheat;
+}
+.project-content.mid img {
+  width: 100%;
+  height: 100%;
+}
+.project-content.right {
+  background-color: rgb(250, 250, 250);
 }
 .footer {
   position: absolute;

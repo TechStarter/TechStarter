@@ -2,9 +2,12 @@ const { Project, Image } = require('../../db/');
 const { pageres } = require('../../service');
 const url = require('url');
 const crypto = require('crypto');
+const _ = require('underscore');
 
 module.exports.getAll = (req, res) => {
-  Project.findAll({ include: [ { model: Image } ] })
+  console.log('getAll: ', req.query);
+  let option = _.extend({ include: [ { model: Image } ] }, req.query);
+  Project.findAll(option)
     .then(projects => {
       if (!projects) { throw projects; }
       res.send(projects);
@@ -17,8 +20,10 @@ module.exports.getAll = (req, res) => {
 
 module.exports.create = (req, res) => {
   // ensure unique filename
+  console.log(new Date());
   const screenshotXS = crypto.randomBytes(8).toString('hex');
   const screenshotXL = crypto.randomBytes(8).toString('hex');
+  console.log(new Date());
 
   pageres.src(req.body.url, ['1280x720'], { filename: screenshotXS, crop: true })
     .dest(__dirname + '/../../public/assets/pageres/').run()

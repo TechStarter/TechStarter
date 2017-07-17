@@ -9,22 +9,23 @@ class ProjectPage extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     let fetched = this.props.projectPage.fetched;
-    const { id, name, images, description, companyName } = this.props.projectPage.content;
+    let { id, name, images, description, companyName } = this.props.projectPage.content;
     return (
       <div className='Container'>
-        <div className='col-md-3 content-left'>
+        <div className='col-md-3 project-content left'>
 
         </div>
-        <div className='col-md-6 content-mid'>
-          <div className='row justify-content-center'>
-            {fetched ? images.map((image, index) => <img src={`${image.full}`} key={index}></img>) : 'loading...'}
+        <div className='col-md-6 project-content mid'>
+          <div className='row justify-content-center img-holder'>
+            {fetched ? images.map((image, index) => <img src={`/assets/pageres/${image.full}`} key={index}></img>) : 'loading...'}
           </div>
           <div className='row justify-content-center'>
 
           </div>
         </div>
-        <div className='col-md-3 content-right'>
+        <div className='col-md-3 project-content right'>
 
         </div>
       </div>

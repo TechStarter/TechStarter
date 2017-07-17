@@ -19,7 +19,7 @@ class App extends React.Component {
   componentDidMount() {
     console.log('App:', this.props);
     this.props.fetchUser();
-    this.props.fetchProjects();
+    this.props.fetchProjects({ params: { limit: 6 } });
   }
 
   render() {
@@ -27,16 +27,18 @@ class App extends React.Component {
       <Router history={browserHistory}>
         <div className='container'>
           <Header user={this.props.user}/>
-          <Route exact path='/' component={() =>
-            <Container projects={this.props.projects}/>
+          <Route exact path='/' render={props =>
+            <Container {...props} projects={this.props.projects}/>
           }/>
-          <Route path='/create' component={() =>
-            <ProjectSubmission user={this.props.user.fetchedUser}/>
+          <Route path='/create' component={props =>
+            <ProjectSubmission {...props} user={this.props.user.fetchedUser}/>
           }/>
-          <Route path='/project/:id' component={ProjectPage}/>
-          <Route path='/auth/login' component={() =>
+          <Route path='/project/:id' component={props =>
+            <ProjectPage {...props} user={this.props.user.fetchedUser}/>
+          }/>
+          <Route path='/auth/login' component={props =>
             <div className='col align-self-center login_container'>
-              <Login />
+              <Login {...props}/>
             </div>
           }/>
           <Route path='/auth/signup' component={Signup} />
@@ -51,7 +53,7 @@ const mapStateToProps = state => ({ user: state.user, projects: state.projects }
 
 const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(fetchUser()),
-  fetchProjects: () => dispatch(fetchProjects())
+  fetchProjects: (option) => dispatch(fetchProjects(option))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
