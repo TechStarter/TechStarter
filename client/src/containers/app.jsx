@@ -6,6 +6,7 @@ import { fetchProjects } from '../actions/projectActions.js';
 import { styles } from '../styles';
 import Header from '../components/header.jsx';
 import Container from '../components/container.jsx';
+import ProjectPage from '../components/projectPage.jsx';
 import Footer from '../components/footer.jsx';
 import Signup from '../components/signup.jsx';
 import Login from '../components/login.jsx';
@@ -14,29 +15,30 @@ import ProjectSubmission from './projectSubmission.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
   }
-
   componentDidMount() {
     console.log('App:', this.props);
-    this.props.fetchProjects();
     this.props.fetchUser();
+    this.props.fetchProjects();
   }
 
   render() {
     return (
       <Router history={browserHistory}>
-        <div style={styles.layout} className='container'>
-          <Header user={this.props.user} handleLogin={this.handleLogin}/>
+        <div className='container'>
+          <Header user={this.props.user}/>
           <Route exact path='/' component={() =>
-            <Container projects={this.props.projects}/>}
-          />
-          <Route path='/project' component={ProjectSubmission} />
+            <Container projects={this.props.projects}/>
+          }/>
+          <Route path='/project/create' component={() =>
+            <ProjectSubmission user={this.props.user.fetchedUser}/>
+          }/>
+          <Route path='/project/:id' component={ProjectPage}/>
           <Route path='/auth/login' component={() =>
             <div className='col align-self-center login_container'>
               <Login />
             </div>
-          } />
+          }/>
           <Route path='/auth/signup' component={Signup} />
           <Footer />
         </div>

@@ -6,7 +6,8 @@
     "start": "nodemon server",
     "test": "NODE_ENV=test grunt test",
     "server-dev": "nodemon server",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "rollback": "node db/lib/utils.js"
   },
   "author": "Hack Reactor",
   "license": "MIT",

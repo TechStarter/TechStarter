@@ -14,7 +14,6 @@ passport.serializeUser((profile, done) => {
 passport.deserializeUser((id, done) => {
   User.findOne({ where: { id: id }, attributes: ['id', 'firstName', 'lastName', 'email', 'phone'] })
     .then(user => {
-      console.log('passport deserializeUser: ', user.dataValues);
       if (!user) { throw user; }
       done(null, user.dataValues);
     })

@@ -21,7 +21,8 @@ class ProjectSubmission extends React.Component {
 
   handleCreate() {
     console.log('project submission: ', this.props);
-    const form = this.props.form;
+    let form = this.props.form;
+    form.userId = this.props.user.id;
     this.props.createProject(form);
   }
 

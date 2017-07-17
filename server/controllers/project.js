@@ -18,16 +18,24 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-  let urlObj = url.parse(req.body.url);
-  console.log('urlObj: ', urlObj);
-  pageres.src(req.body.url, ['1440x900'], { filename: `${urlObj.host}`, crop: true })
+  let projectName = req.body.name.split(' ').join('_');
+  let screenshotXS = `${req.body.userId}_${projectName}_xs`;
+  let screenshotXL = `${req.body.userId}_${projectName}_xl`;
+  pageres.src(req.body.url, ['1280x720'], { filename: screenshotXS, crop: true })
     .dest(__dirname + '/../../public/assets/pageres/').run()
+    .then(() => {
+      return pageres.src(req.body.url, ['1280x720'], { filename: screenshotXL })
+        .dest(__dirname + '/../../public/assets/pageres/').run();
+    })
     .then(() => {
       return Project.create(req.body);
     })
     .then(project => {
       if (!project) { throw project; }
-      return Image.create({ url: `${urlObj.host}.png`, projectId: project.dataValues.id });
+      return Image.bulkCreate([
+        { url: `${screenshotXS}.png`, projectId: project.dataValues.id },
+        { url: `${screenshotXL}.png`, projectId: project.dataValues.id }
+      ]);
     })
     .then(result => {
       if (!result) { throw result; }

@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.route('/')
   .get((req, res) => {
-    console.log('getSession: ', req.user);
     res.send(req.user ? {
       isLoggedIn: true,
       user: req.user

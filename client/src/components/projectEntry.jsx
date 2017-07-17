@@ -1,6 +1,4 @@
 import React from 'react';
-import { Modal, Fade } from 'react-bootstrap';
-import { styles } from '../styles';
 
 const ProjectEntry = ({ project }) => (
   <div className='col-md-4 project_entry'>
