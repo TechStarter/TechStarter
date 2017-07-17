@@ -1,9 +1,7 @@
 const { Project, Image } = require('../../db/');
 const { pageres } = require('../../service');
 const url = require('url');
-const request = require('request-promise');
-const config = require('config')['screenshotlayer'];
-const util = require('../helpers/util');
+const crypto = require('crypto');
 
 module.exports.getAll = (req, res) => {
   Project.findAll({ include: [ { model: Image } ] })
@@ -18,9 +16,10 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-  let projectName = req.body.name.split(' ').join('_');
-  let screenshotXS = `${req.body.userId}_${projectName}_xs`;
-  let screenshotXL = `${req.body.userId}_${projectName}_xl`;
+  // ensure unique filename
+  const screenshotXS = crypto.randomBytes(8).toString('hex');
+  const screenshotXL = crypto.randomBytes(8).toString('hex');
+
   pageres.src(req.body.url, ['1280x720'], { filename: screenshotXS, crop: true })
     .dest(__dirname + '/../../public/assets/pageres/').run()
     .then(() => {
@@ -32,10 +31,7 @@ module.exports.create = (req, res) => {
     })
     .then(project => {
       if (!project) { throw project; }
-      return Image.bulkCreate([
-        { url: `${screenshotXS}.png`, projectId: project.dataValues.id },
-        { url: `${screenshotXL}.png`, projectId: project.dataValues.id }
-      ]);
+      return Image.create({ small: `${screenshotXS}.png`, full: `${screenshotXL}.png`, projectId: project.dataValues.id });
     })
     .then(result => {
       if (!result) { throw result; }
@@ -48,7 +44,7 @@ module.exports.create = (req, res) => {
 };
 
 module.exports.getOne = (req, res) => {
-  Project.findOne({ where: { id: req.params.id } })
+  Project.findOne({ where: { id: req.params.id }, include: [ { model: Image } ] })
     .then(project => {
       if (!project) { throw project; }
       res.send(project);

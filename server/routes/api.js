@@ -12,10 +12,10 @@ router.route('/')
     res.status(201).send({ data: 'Posted!' });
   });
 
-router.route('/project/create')
+router.route('/create')
   .get(middleware.auth.verify, (req, res) => res.render('index.ejs'));
 
 router.route('/project/:id')
-  .get(middleware.auth.verify, (req, res) => res.render('index.ejs'));
+  .get((req, res) => res.render('index.ejs'));
 
 module.exports = router;

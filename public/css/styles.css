@@ -40,6 +40,7 @@ body {
 }
 .thumbnails {
   text-align: center;
+  cursor: pointer;
 }
 .thumbnails:before {
   width: 100%;
@@ -74,8 +75,6 @@ body {
 .footer a:hover{
   background-color: rgb(205, 82, 0) !important;
 }
-
-/*login & signup*/
 .signup {
   margin-top: 5%;
   position: absolute;;
@@ -115,9 +114,6 @@ body {
 #login-dp .form-group {
   margin-bottom: 10px;
 }
-/*#login-dp a {
-  background-color: white !important;
-}*/
 .btn-fb{
   margin-right: 2%;
   color: #fff;

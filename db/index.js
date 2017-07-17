@@ -69,7 +69,8 @@ const Image = db.define('image', {
     allowNull: false,
     primaryKey: true
   },
-  url: { type: Sequelize.TEXT, unique: true }
+  small: Sequelize.TEXT,
+  full: Sequelize.TEXT
 });
 
 

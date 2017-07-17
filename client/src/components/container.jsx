@@ -11,7 +11,7 @@ class Container extends React.Component {
       <div className='container'>
         <div className='row justify-content-center landing_page clearfix'>
           <div className='start_project_btn'>
-            <Button href='/project/create' bsSize="large" block>Start a Project</Button>
+            <Button href='/create' bsSize="large" block>Start a Project</Button>
           </div>
         </div>
         <div className='row justify-content-md-center project_miniview'>

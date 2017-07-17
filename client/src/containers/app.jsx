@@ -6,7 +6,7 @@ import { fetchProjects } from '../actions/projectActions.js';
 import { styles } from '../styles';
 import Header from '../components/header.jsx';
 import Container from '../components/container.jsx';
-import ProjectPage from '../components/projectPage.jsx';
+import ProjectPage from './projectPage.jsx';
 import Footer from '../components/footer.jsx';
 import Signup from '../components/signup.jsx';
 import Login from '../components/login.jsx';
@@ -30,7 +30,7 @@ class App extends React.Component {
           <Route exact path='/' component={() =>
             <Container projects={this.props.projects}/>
           }/>
-          <Route path='/project/create' component={() =>
+          <Route path='/create' component={() =>
             <ProjectSubmission user={this.props.user.fetchedUser}/>
           }/>
           <Route path='/project/:id' component={ProjectPage}/>
