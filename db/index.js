@@ -88,8 +88,6 @@ Interest.belongsToMany(User, { through: 'UserInterest' });
 
 Interest.belongsToMany(Project, { through: 'ProjectInterest' });
 
-Image.belongsTo(Project);
-
 // User.hasMany(Interest);
 
 // User.hasMany(Funding);
