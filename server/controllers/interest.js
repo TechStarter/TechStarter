@@ -1,5 +1,5 @@
 const Interest = require('../../db/').Interest;
-const discovery = require('../../service/').discovery;
+//const discovery = require('../../service/').discovery;
 const config = require('config')['watson'];
 
 module.exports.getInterest = (req, res) => {
