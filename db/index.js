@@ -64,6 +64,21 @@ const Funding = db.define('funding', {
   amount: Sequelize.DECIMAL(10, 2)
 });
 
+const Notification = db.define('notification', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true
+  },
+  type: Sequelize.TEXT,
+  status: {
+    type: Sequelize.TEXT,
+    defaultValue: 'unread'
+  },
+  viewedAt: Sequelize.DATE
+});
+
 User.hasMany(Project, { foreignKey: 'userId'});
 
 Project.belongsTo(User);

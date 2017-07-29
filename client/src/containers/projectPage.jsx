@@ -20,17 +20,17 @@ class ProjectPage extends React.Component {
     let sessionOwner = this.props.user;
     let fetched = this.props.projectPage.fetched;
     let project = this.props.projectPage.content;
-
     return (
       <div className='container project-page'>
-        <div className='col-md-6 project-page-left'>
-          {fetched ? <ProjectPageMain project={project} user={sessionOwner} match={this.props.match}/>
-            : <Spinner style={{marginTop: '100px'}}/>
-          }
-        </div>
-        <div className='col-md-3 project-page-right'>
-          <Payment />
-        </div>
+        {
+          fetched ?
+            <ProjectPageMain
+              project={project}
+              match={this.props.match}
+              sendContactRequest={this.props.sendContactRequest}
+            /> :
+            <Spinner style={{marginTop: '150px'}}/>
+        }
       </div>
     );
   }
