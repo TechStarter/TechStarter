@@ -1,11 +1,15 @@
 const Sequelize = require('sequelize');
+const config = require('config')['sequelize'];
+const users = require('./users.json');
+const projects = require('./projects.json');
+const interests = require('./interests.json');
+const { compileProjects } = require('./seeds/seed');
 
-let db = null;
-if (process.env.DATABASE_URL) {
-  db = new Sequelize(process.env.DATABASE_URL);
-} else {
-  db = new Sequelize('postgres:///techstarter');
-}
+const db = new Sequelize(config.connection.database, config.connection.user, config.connection.password, {
+  host: config.connection.host,
+  dialect: 'postgres',
+  pool: config.pool
+});
 
 const User = db.define('user', {
   id: {
@@ -95,10 +99,22 @@ Interest.belongsToMany(User, { through: 'UserInterest' });
 
 Interest.belongsToMany(Project, { through: 'ProjectInterest' });
 
-// User.hasMany(Interest);
+Notification.belongsTo(User, { as: 'originator' });
 
-// User.hasMany(Funding);
+Notification.belongsTo(User, { as: 'recipient' });
 
-// Project.hasMany(Interest, { foreignKey: 'projectId' });
+db.sync()
+  .then(() => {
+    User.bulkCreate(users)
+      .then(() => {
+        Project.bulkCreate(compileProjects(projects.projects))
+          .then(() => {
+            Interest.bulkCreate(interests);
+            // .then(() => {
+            //   db.close();
+            // });
+          });
+      });
+  });
 
 module.exports = { db, User, Project, Interest, Funding };
