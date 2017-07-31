@@ -1,25 +1,4 @@
 export const styles = {
-  nav: {
-    title: {
-      color: 'white',
-      cursor: 'pointer'
-    },
-    authButton: {
-      backgroundColor: 'rgb(59, 62, 60)'
-    }
-  },
-  header: {
-    height: '32px',
-    backgroundColor: 'rgb(59, 62, 60)',
-    width: '100%',
-    borderRadius: '0px',
-    border: '0px',
-    borderBottom: '1px solid rgb(129, 123, 121)',
-    left: '0px',
-    display: 'block',
-    position: 'fixed',
-    zIndex: 100
-  },
   loginModal: {
     marginTop: '5%'
   },
@@ -28,10 +7,6 @@ export const styles = {
   },
   searchDiv: {
     width: '200px'
-  },
-  showcase: {
-    height: '1650px',
-    borderRadius: '0px'
   },
   footer: {
     button: {

@@ -18,7 +18,6 @@ const User = db.define('user', {
     allowNull: false,
     primaryKey: true
   },
-  slug: { type: Sequelize.TEXT, unique: true },
   email: { type: Sequelize.TEXT, unique: true },
   firstName: Sequelize.TEXT,
   lastName: Sequelize.TEXT,
@@ -35,7 +34,7 @@ const Project = db.define('project', {
   },
   companyName: Sequelize.TEXT,
   appName: Sequelize.TEXT,
-  slug: { type: Sequelize.TEXT, unique: true },
+  slug: { type: Sequelize.TEXT },
   blurb: Sequelize.TEXT,
   logo: Sequelize.TEXT,
   imageURL: Sequelize.TEXT,
@@ -85,11 +84,11 @@ const Notification = db.define('notification', {
 
 User.hasMany(Project, { foreignKey: 'userId'});
 
+User.belongsToMany(User, { as: 'contacts', through: 'Contacts' });
+
 Project.belongsTo(User);
 
 Project.hasMany(Funding, { foreignKey: 'projectId' });
-
-//Project.hasMany(Image, { foreignKey: 'projectId' });
 
 Funding.belongsTo(User);
 

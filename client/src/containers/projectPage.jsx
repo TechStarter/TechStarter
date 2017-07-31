@@ -5,11 +5,13 @@ import { fetchProject } from '../actions/projectPageActions.js';
 import ProjectPageMain from '../components/projectPageMain.jsx';
 import Payment from './payment.jsx';
 import Spinner from '../components/spinner.jsx';
+import axios from 'axios';
 
 class ProjectPage extends React.Component {
   constructor(props) {
     super(props);
   }
+
   componentDidMount() {
     let userId = this.props.match.params.userId;
     let project = this.props.match.params.project;
