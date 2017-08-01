@@ -12,9 +12,17 @@ class ProjectPage extends React.Component {
     let userId = this.props.match.params.userId;
     let project = this.props.match.params.project;
     this.props.fetchProject(`${userId}/${project}`);
-    console.log(this.props.user);
+    console.log('projectPage: ', this.props.isContact);
     if (this.props.user.isLoggedIn) {
       this.props.checkIfContact(Number(userId), this.props.user.fetchedUser);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user && nextProps.user.isLoggedIn) {
+      let userId = this.props.match.params.userId;
+      let project = this.props.match.params.project;
+      this.props.checkIfContact(Number(userId), nextProps.user.fetchedUser);
     }
   }
 

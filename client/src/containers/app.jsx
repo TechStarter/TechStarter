@@ -28,7 +28,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounting app');
     this.props.fetchUser()
       .then(result => {
         if (!result) { throw result; }
@@ -102,7 +101,7 @@ class App extends React.Component {
                 projects={this.props.projects}
                 handleProjectFetching={this.handleProjectFetching}/>
             }/>
-            <Route path='/projects/:userId/:project' component={props =>
+            <Route path='/projects/:userId/:project' render={props =>
               <ProjectPage
                 {...props}
                 sendContactRequest={this.sendContactRequest}

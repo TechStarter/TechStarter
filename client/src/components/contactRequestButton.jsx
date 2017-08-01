@@ -1,8 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
-import { connect } from 'react-redux';
 import { projectPageMainStyle } from '../styles';
-import { checkIfValueExistInArray } from '../../../helpers/util';
 
 const ContactRequestButton = ({ sendContactRequest, isContact }) => {
   let button;
@@ -32,6 +30,4 @@ const ContactRequestButton = ({ sendContactRequest, isContact }) => {
   );
 };
 
-const mapStateToProps = state => ({ contacts: state.contacts });
-
-export default connect(mapStateToProps)(Radium(ContactRequestButton));
+export default Radium(ContactRequestButton);
