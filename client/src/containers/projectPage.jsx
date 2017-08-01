@@ -29,6 +29,7 @@ class ProjectPage extends React.Component {
             <ProjectPageMain
               project={project}
               match={this.props.match}
+              user={sessionOwner}
               sendContactRequest={this.props.sendContactRequest}
             /> :
             <Spinner style={{marginTop: '150px'}}/>

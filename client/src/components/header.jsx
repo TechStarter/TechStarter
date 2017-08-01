@@ -8,8 +8,18 @@ import Search from './search.jsx';
 import Login from './login.jsx';
 import NotificationList from './notificationList.jsx';
 
-const Header = ({ user, toggleSidebar, menu, notifications }) => {
+const Header = ({ user, toggleSidebar, menu, notifications, markNotificationAsRead }) => {
   let display = null;
+  let leftMenu = null;
+
+  const unreadMessages = notifications.filter(el => el.status === 'unread');
+
+  const popoverNotification = (
+    <Popover id='popover-positioned-bottom' title='Messages' style={popoverStyle}>
+      <NotificationList notifications={notifications}/>
+    </Popover>
+  );
+
   if (user.fetched && user.isLoggedIn) {
     display = (
       <Nav pullRight>
@@ -17,6 +27,20 @@ const Header = ({ user, toggleSidebar, menu, notifications }) => {
           <HamburgerMenu menu={menu} toggleSidebar={toggleSidebar}/>
         </NavItem>
       </Nav>);
+
+    leftMenu = (
+      <Nav>
+        <LinkContainer to='/create'>
+          <NavItem>Start a project</NavItem>
+        </LinkContainer>
+        <LinkContainer to='/myProfile'>
+          <NavItem>My projects</NavItem>
+        </LinkContainer>
+        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverNotification} onClick={e => markNotificationAsRead(e, unreadMessages)}>
+          <NavItem>My messages <span className='badge'>{unreadMessages.length}</span></NavItem>
+        </OverlayTrigger>
+      </Nav>
+    );
   } else if (!user.fetching && !user.isLoggedIn) {
     display = (
       <Nav pullRight>
@@ -27,14 +51,16 @@ const Header = ({ user, toggleSidebar, menu, notifications }) => {
           <Login />
         </NavDropdown>
       </Nav>);
+
+    leftMenu = (
+      <Nav>
+        <LinkContainer to='/create'>
+          <NavItem>Start a project</NavItem>
+        </LinkContainer>
+      </Nav>
+    );
   }
 
-  const unreadMessages = notifications.filter(el => el.status === 'unread');
-  const popoverNotification = (
-    <Popover id='popover-positioned-bottom' title='Messages' style={popoverStyle}>
-      <NotificationList notifications={notifications}/>
-    </Popover>
-  );
   return (
     <Navbar style={headerStyle} fluid={true}>
       <Navbar.Header>
@@ -44,17 +70,7 @@ const Header = ({ user, toggleSidebar, menu, notifications }) => {
           </LinkContainer>
         </Navbar.Brand>
       </Navbar.Header>
-      <Nav>
-        <LinkContainer to='/myProfile'>
-          <NavItem>My projects</NavItem>
-        </LinkContainer>
-        <LinkContainer to='/create'>
-          <NavItem>Start a project</NavItem>
-        </LinkContainer>
-        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverNotification}>
-          <NavItem>My messages <span className='badge'>{unreadMessages.length}</span></NavItem>
-        </OverlayTrigger>
-      </Nav>
+      {leftMenu}
       {display}
     </Navbar>
   );
