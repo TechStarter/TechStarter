@@ -77,15 +77,26 @@ export const notificationStyle = {
 };
 
 export const notificationListEntryStyle = {
-  ':hover': {
-    backgroundColor: 'rgba(232, 232, 232, 0.5)'
+  li: {
+    listStyle: 'none',
+    width: '100%',
+    height: '62px',
+    padding: '8px 14px',
+    verticalAlign: 'middle',
+    borderBottom: '1px solid rgb(232, 232, 232)'
   },
-  listStyle: 'none',
-  width: '100%',
-  height: '62px',
-  padding: '8px 14px',
-  verticalAlign: 'middle',
-  borderBottom: '1px solid rgb(232, 232, 232)'
+  accept: {
+    color: 'rgb(81,118,184)',
+    backgroundColor: 'transparent',
+    border: 'none',
+    backgroundRepeat: 'no-repeat'
+  },
+  decline: {
+    color: 'rgb(215,96,85)',
+    backgroundColor: 'transparent',
+    border: 'none',
+    backgroundRepeat: 'no-repeat'
+  }
 };
 
 export const projectPageMainStyle = {

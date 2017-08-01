@@ -53,6 +53,10 @@ module.exports.create = (req, res) => {
 };
 
 module.exports.getOne = (req, res) => {
+  if (req.user.id === Number(req.params.id)) {
+    return res.send('self');
+  }
+
   Contact.findOne({ where: { userId: req.user.id, contactsId: req.params.id } })
     .then(result => {
       res.send(result);
@@ -66,8 +70,8 @@ module.exports.getOne = (req, res) => {
 module.exports.update = (req, res) => {
   console.log('contact update: '.yellow, req.body);
   Promise.all([
-    Contact.findById(req.params.id),
-    Contact.findById(req.user.id)
+    Contact.findOne({ where: { userId: req.params.id } }),
+    Contact.findOne({ where: { userId: req.user.id } })
   ]).spread((result1, result2) => {
     return Promise.all([
       result1.update(req.body),

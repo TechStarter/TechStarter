@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../actions/userActions.js';
 import { fetchProjects } from '../actions/projectActions.js';
 import { fetchNotifications } from '../actions/notificationActions.js';
-import Header from '../components/header.jsx';
+import Header from './header.jsx';
 import LandingPage from '../components/landingPage.jsx';
 import ProjectPage from './projectPage.jsx';
 import ProfilePage from '../components/profilePage.jsx';

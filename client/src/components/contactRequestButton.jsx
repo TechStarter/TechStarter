@@ -2,7 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 import { projectPageMainStyle } from '../styles';
 
-const ContactRequestButton = ({ sendContactRequest, isContact }) => {
+const ContactRequestButton = ({ sendContactRequest, isContact, match }) => {
   let button;
 
   if (isContact) {

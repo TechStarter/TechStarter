@@ -19,7 +19,7 @@ const ProjectPageMain = ({ project, user, match, sendContactRequest, isContact }
               <span style={{display: 'block', margin: '5px 0px', color: 'rgb(90,90,90)'}}>
                 By <span style={{fontWeight: 'bold', color: 'rgb(53,53,53)'}}>{`${project.user.firstName} ${project.user.lastName}`}</span>
               </span>
-              <ContactRequestButton sendContactRequest={sendContactRequest} isContact={isContact}/>
+              <ContactRequestButton sendContactRequest={sendContactRequest} isContact={isContact} match={match}/>
             </div>
             <div className='col-md-9' style={{verticalAlign: 'top'}}>
               <h2 style={{fontWeight: '500', marginBottom: '1.8rem'}}>{project.appName}</h2>

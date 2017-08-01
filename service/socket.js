@@ -41,15 +41,6 @@ io.on('connection', socket => {
         console.log('error creating notification', err);
         io.to(id).emit('failed to fulfill contact requset');
       });
-    // Notification.create(data)
-    //   .then(result => {
-    //     console.log('contact request: '.yellow, result);
-    //     if (!result) { throw result; }
-    //     io.to(data.recipientId).emit('new notification');
-    //   })
-    //   .catch(err => {
-    //     io.to(id).emit('failed to send request');
-    //   });
   });
 
   socket.on('mark notifications as read', notifications => {

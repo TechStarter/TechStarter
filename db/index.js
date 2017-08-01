@@ -97,7 +97,6 @@ const Contact = db.define('contact', {
 
 User.hasMany(Project, { foreignKey: 'userId'});
 
-// User.belongsToMany(User, { as: 'contacts', through: Contact });
 User.hasMany(Contact);
 
 Contact.belongsTo(User, { as: 'contacts'} );

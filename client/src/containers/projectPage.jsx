@@ -8,22 +8,17 @@ import Payment from './payment.jsx';
 import Spinner from '../components/spinner.jsx';
 
 class ProjectPage extends React.Component {
-  componentDidMount() {
-    let userId = this.props.match.params.userId;
-    let project = this.props.match.params.project;
-    this.props.fetchProject(`${userId}/${project}`);
-    console.log('projectPage: ', this.props.isContact);
-    if (this.props.user.isLoggedIn) {
-      this.props.checkIfContact(Number(userId), this.props.user.fetchedUser);
-    }
+  constructor(props) {
+    super(props);
+
+    this.userId = this.props.match.params.userId;
+    this.project = this.props.match.params.project;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.user !== nextProps.user && nextProps.user.isLoggedIn) {
-      let userId = this.props.match.params.userId;
-      let project = this.props.match.params.project;
-      this.props.checkIfContact(Number(userId), nextProps.user.fetchedUser);
-    }
+  componentDidMount() {
+    this.props.fetchProject(`${this.userId}/${this.project}`);
+
+    this.props.checkIfContact(this.userId);
   }
 
   render() {
