@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { projectPageMainStyle } from '../styles';
 import { checkIfValueExistInArray } from '../../../helpers/util';
 
-const ContactRequestButton = ({ user, sendContactRequest, match, contacts }) => {
-  let button = null;
-  let isContact = checkIfValueExistInArray(contacts.content, 'contactsId', match.params.userId);
+const ContactRequestButton = ({ sendContactRequest, isContact }) => {
+  let button;
 
-  if (user.isLoggedIn && isContact) {
+  if (isContact) {
     button = (
       <div style={projectPageMainStyle.addContact.div}>
         <span style={projectPageMainStyle.connected}>
@@ -16,7 +15,7 @@ const ContactRequestButton = ({ user, sendContactRequest, match, contacts }) => 
         </span>
       </div>
     );
-  } else if (user.isLoggedIn && !isContact) {
+  } else if (isContact === false) {
     button = (
       <div style={projectPageMainStyle.addContact.div} onClick={e => sendContactRequest(e, match.params.userId)}>
         <span style={projectPageMainStyle.addContact.text}>

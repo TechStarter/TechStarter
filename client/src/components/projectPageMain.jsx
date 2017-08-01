@@ -3,7 +3,7 @@ import Radium from 'radium';
 import { projectPageMainStyle } from '../styles';
 import ContactRequestButton from './contactRequestButton.jsx';
 
-const ProjectPageMain = ({ project, user, match, sendContactRequest }) => {
+const ProjectPageMain = ({ project, user, match, sendContactRequest, isContact }) => {
   let containerClass = 'container project-preview';
   let imageSrc = 'http://via.placeholder.com/350x197?text=Hello+world!';
   if (project.imageURL) { imageSrc = project.imageURL; }
@@ -19,7 +19,7 @@ const ProjectPageMain = ({ project, user, match, sendContactRequest }) => {
               <span style={{display: 'block', margin: '5px 0px', color: 'rgb(90,90,90)'}}>
                 By <span style={{fontWeight: 'bold', color: 'rgb(53,53,53)'}}>{`${project.user.firstName} ${project.user.lastName}`}</span>
               </span>
-              <ContactRequestButton sendContactRequest={sendContactRequest} user={user} match={match}/>
+              <ContactRequestButton sendContactRequest={sendContactRequest} isContact={isContact}/>
             </div>
             <div className='col-md-9' style={{verticalAlign: 'top'}}>
               <h2 style={{fontWeight: '500', marginBottom: '1.8rem'}}>{project.appName}</h2>

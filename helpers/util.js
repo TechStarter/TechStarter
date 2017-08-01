@@ -46,16 +46,4 @@ const strColor = (str) => {
   return color[s];
 };
 
-const checkIfValueExistInArray = (array, key, value) => {
-  let res = false;
-
-  array.forEach(el => {
-    if (el[key] === Number(value)) {
-      res = true;
-    }
-  });
-
-  return res;
-};
-
-module.exports = { calculatePercentage, convertToSlug, strColor, checkIfValueExistInArray };
+module.exports = { calculatePercentage, convertToSlug, strColor };
